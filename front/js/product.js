@@ -1,6 +1,7 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString)
 const productId = urlParams.get("id")
+
 if (productId != null) {
     let itemPrice = 0
     let imageUrl
@@ -21,11 +22,15 @@ function productData(couch) {
     const name = couch.name
     const price = couch.price
     const _id = couch._id
+
+    /* Création de la carte du produit */
+
     makeImage(imageUrl, altTxt)
     makeTitle(name)
     makePrice(price)
     makeDescription(description)
     makeColors(colors)
+
     itemPrice = price
     imgUrl = imageUrl
     altText = altTxt
