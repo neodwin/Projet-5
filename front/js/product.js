@@ -2,6 +2,8 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString)
 const productId = urlParams.get("id")
 
+/* Articles récupérés depuis l'API */
+
 fetch("http://localhost:3000/api/products/" + productId)
     .then(response => response.json())
     .then((res) => productData(res))
@@ -19,7 +21,13 @@ function productData(couch) {
     makePrice(price)
     makeDescription(description)
     makeColors(colors)
+    itemPrice = price
+    imgUrl = imageUrl
+    altText = altTxt
+    articleName = name
 }
+
+/* Récupération de l'image */
 
 function makeImage(imageUrl, altTxt) {
     const image = document.createElement("img")
@@ -29,18 +37,26 @@ function makeImage(imageUrl, altTxt) {
     parent.appendChild(image)
 }
 
+/* Récupération du titre */
+
 function makeTitle(name) {
     document.querySelector("#title").textContent = name
 }
+
+/* Récupération du prix */
 
 function makePrice(price) {
     const span = document.querySelector("#price")
     if (span != null) span.textContent = price
 }
 
+/* Récupération de la description */
+
 function makeDescription(description) {
     document.querySelector("#description").textContent = description
 }
+
+/* Récupération des options de couleurs */
 
 function makeColors(colors) {
     const select = document.querySelector("#colors")
@@ -52,4 +68,29 @@ function makeColors(colors) {
             select.appendChild(option)
         })
     }
+}
+
+/* Ajout au panier */
+
+const button = document.querySelector("#addToCart")
+if (button != null) {
+    button.addEventListener("click", (e) => {
+        const color = document.querySelector("#colors").value
+        const quantity = document.querySelector("#quantity").value
+        if (color == null && quantity == null) {
+            alert("Please select a color and quantity")
+        }
+
+        const data = {
+            productId: productId,
+            color: color,
+            quantity: quantity,
+            price: itemPrice,
+            imageUrl: imgUrl,
+            altTxt: altText,
+            name: articleName
+        }
+        localStorage.setItem(productId, JSON.stringify(data))
+        window.location.href = "cart.html"
+    })
 }
