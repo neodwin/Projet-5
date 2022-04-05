@@ -1,6 +1,11 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString)
 const productId = urlParams.get("id")
+if (productId != null) {
+    let itemPrice = 0
+    let imageUrl
+    let altText
+}
 
 /* Articles récupérés depuis l'API */
 
