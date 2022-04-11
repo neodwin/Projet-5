@@ -4,7 +4,7 @@ const productId = urlParams.get("id")
 
 if (productId != null) {
     let itemPrice = 0
-    let imageUrl
+    let imgUrl
     let altText
 }
 
@@ -22,6 +22,7 @@ function productData(couch) {
     const name = couch.name
     const price = couch.price
     const _id = couch._id
+
 
     /* Création de la carte du produit */
 
@@ -87,20 +88,33 @@ if (button != null) {
     button.addEventListener("click", (e) => {
         const color = document.querySelector("#colors").value
         const quantity = document.querySelector("#quantity").value
-        if (color == null && quantity == null) {
-            alert("Please select a color and quantity")
-        }
 
-        const data = {
-            productId: productId,
-            color: color,
-            quantity: quantity,
-            price: itemPrice,
-            imageUrl: imgUrl,
-            altTxt: altText,
-            name: articleName
-        }
-        localStorage.setItem(productId, JSON.stringify(data))
-        window.location.href = "cart.html"
+        if (isOrderInvalid(color, quantity)) return
+        addCart(color, quantity)
+        goToCart()
     })
+}
+
+function addCart(color, quantity) {
+    const data = {
+        productId: productId,
+        color: color,
+        quantity: quantity,
+        price: itemPrice,
+        imageUrl: imgUrl,
+        altTxt: altText,
+        name: articleName
+    }
+    localStorage.setItem(productId, JSON.stringify(data))
+}
+
+function isOrderInvalid(color, quantity) {
+    if (color == null || color === "" || quantity == null || quantity == 0) {
+        alert("Please select a color and quantity")
+        return true
+    }
+}
+
+function goToCart() {
+    window.location.href = "cart.html"
 }
