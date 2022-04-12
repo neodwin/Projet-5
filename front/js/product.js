@@ -6,6 +6,7 @@ if (productId != null) {
     let itemPrice = 0
     let imgUrl
     let altText
+    let articleName
 }
 
 /* Articles récupérés depuis l'API */
@@ -114,6 +115,8 @@ function isOrderInvalid(color, quantity) {
         return true
     }
 }
+
+/* Envoi vers la page panier "cart" */
 
 function goToCart() {
     window.location.href = "cart.html"
