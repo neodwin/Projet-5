@@ -6,27 +6,49 @@ cart.forEach(item => postItem(item))
 function itemsLocalStorage() {
     const productItems = localStorage.length
     for (let i = 0; i < productItems; i++) {
-        const item = localStorage.getItem(localStorage.key(i))
+        const item = localStorage.getItem(localStorage.key(i)) || ""
         const itemObject = JSON.parse(item)
         cart.push(itemObject)
     }
 }
 
+/* Création des articles dans la page panier */
+
 function postItem(item) {
     const article = makeArticle(item)
-    postArticle(article)
     const div = makeImage(item)
     article.appendChild(div)
 
-    const cartItemContent = makeCartItemContent(item)
+    const cartItemContent = makeCartContent(item)
     article.appendChild(cartItemContent)
+
+    postArticle(article)
+
+    postTotalQuantity(item)
 }
 
-function makeCartItemContent(item) {
+function makeCartContent(item) {
+    const cartItemContent = document.createElement("div")
+    cartItemContent.classList.add("cart__intem__content")
 
-    const div = document.createElement("div")
-    div.classList.add("cart__item__content")
+    const description = makeDescription(item)
+    const settings = makeSettings(item)
 
+    cartItemContent.appendChild(description)
+    cartItemContent.appendChild(settings)
+    return cartItemContent
+}
+
+function makeSettings(item) {
+    const settings = document.createElement("div")
+    settings.classList.add("cart__item__settings")
+
+    addQuantityToSettings(settings, item)
+    addDeleteToSettings(settings)
+    return settings
+}
+
+function makeDescription(item) {
     const description = document.createElement("div")
     description.classList.add("cart__item__content__description")
 
@@ -42,8 +64,7 @@ function makeCartItemContent(item) {
     description.appendChild(h2)
     description.appendChild(p)
     description.appendChild(p2)
-    div.appendChild(description)
-    return div
+    return description
 }
 
 function postArticle(article) {
@@ -68,4 +89,46 @@ function makeImage(item) {
     div.appendChild(image)
 
     return div
+}
+
+/* Gestion de la quantité depuis le panier */
+
+function addQuantityToSettings(settings, item) {
+    const quantity = document.createElement("div")
+    quantity.classList.add("cart__item__content__settings__quantity")
+
+    const p = document.createElement("p")
+    p.textContent = "Qté : "
+    quantity.appendChild(p)
+
+    const input = document.createElement("input")
+    input.type = "number"
+    input.classList.add("itemQuantity")
+    input.name = "itemQuantity"
+    input.min = "1"
+    input.max = "100"
+    input.value = item.quantity
+
+    quantity.appendChild(input)
+    settings.appendChild(quantity)
+}
+
+/* Gestion de la suppression depuis le panier */
+
+function addDeleteToSettings(settings) {
+    const div = document.createElement("div")
+    div.classList.add("cart__item__content__settings__delete")
+    const p = document.createElement("p")
+    p.textContent = "Supprimer"
+    div.appendChild(p)
+    settings.appendChild(div)
+}
+
+function postTotalQuantity(item) {
+    let total = 0
+    const totalQuantity = document.querySelector("#totalQuantity")
+    cart.forEach((item) => {
+        const TotalPrice = item.price * itemQuantity
+        total += totalPrice
+    })
 }
