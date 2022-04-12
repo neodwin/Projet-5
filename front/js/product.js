@@ -106,7 +106,7 @@ function addCart(color, quantity) {
         altTxt: altText,
         name: articleName
     }
-    localStorage.setItem(productId, JSON.stringify(data))
+    localStorage.setItem(productId + color, JSON.stringify(data))
 }
 
 function isOrderInvalid(color, quantity) {

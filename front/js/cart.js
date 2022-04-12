@@ -23,8 +23,8 @@ function postItem(item) {
     article.appendChild(cartItemContent)
 
     postArticle(article)
-
-    postTotalQuantity(item)
+    postTotalQuantity()
+    postTotalPrice()
 }
 
 function makeCartContent(item) {
@@ -124,11 +124,14 @@ function addDeleteToSettings(settings) {
     settings.appendChild(div)
 }
 
-function postTotalQuantity(item) {
-    let total = 0
+function postTotalQuantity() {
     const totalQuantity = document.querySelector("#totalQuantity")
-    cart.forEach((item) => {
-        const TotalPrice = item.price * itemQuantity
-        total += totalPrice
-    })
+    const total = cart.reduce((total, item) => total + item.quantity, 0)
+    totalQuantity.textContent = total
+}
+
+function postTotalPrice() {
+    const totalPrice = document.querySelector("#totalPrice")
+    const total = cart.reduce((total, item) => total + item.price * item.quantity, 0)
+    totalPrice.textContent = total
 }
