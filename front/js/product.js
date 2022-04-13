@@ -100,7 +100,7 @@ function addCart(color, quantity) {
     const data = {
         productId: productId,
         color: color,
-        quantity: quantity,
+        quantity: Number(quantity),
         price: itemPrice,
         imageUrl: imgUrl,
         altTxt: altText,
