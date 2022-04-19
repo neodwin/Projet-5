@@ -143,11 +143,13 @@ function deleteCart(item) {
 
 function deleteArticleToCart(item) {
     const articleDelete = document.querySelector(
-        `article[data-productId="${item.productId}"][data-color="${item.color}"]`
+        `article[data-product-id="${item.productId}"][data-color="${item.color}"]`
     )
+    console.log(item)
     articleDelete.remove()
 
     alert("Ce produit a bien été retiré du panier")
+    location.reload()
 }
 
 function postTotalQuantity() {
