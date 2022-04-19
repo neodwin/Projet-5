@@ -44,7 +44,7 @@ function makeSettings(item) {
     settings.classList.add("cart__item__settings")
 
     addQuantityToSettings(settings, item)
-    addDeleteToSettings(settings)
+    addDeleteToSettings(settings, item)
     return settings
 }
 
@@ -74,7 +74,7 @@ function postArticle(article) {
 function makeArticle(item) {
     const article = document.createElement("article")
     article.classList.add("cart__item")
-    article.dataset.id = item.id
+    article.dataset.productId = item.productId
     article.dataset.color = item.color
     return article
 }
@@ -108,6 +108,7 @@ function addQuantityToSettings(settings, item) {
     input.min = "1"
     input.max = "100"
     input.value = item.quantity
+    input.addEventListener("input", () => changeQuantityAndPrice(item.productId, input.value, item))
 
     quantity.appendChild(input)
     settings.appendChild(quantity)
@@ -115,13 +116,38 @@ function addQuantityToSettings(settings, item) {
 
 /* Gestion de la suppression depuis le panier */
 
-function addDeleteToSettings(settings) {
+function addDeleteToSettings(settings, item) {
     const div = document.createElement("div")
     div.classList.add("cart__item__content__settings__delete")
+    div.addEventListener("click", () => deleteItem(item))
+
     const p = document.createElement("p")
     p.textContent = "Supprimer"
     div.appendChild(p)
     settings.appendChild(div)
+}
+
+function deleteItem(item) {
+    const itemDelete = cart.findIndex(product => product.productId === item.productId && product.color === item.color)
+    cart.splice[itemDelete, 1]
+    postTotalQuantity()
+    postTotalPrice()
+    deleteCart(item)
+    deleteArticleToCart(item)
+}
+
+function deleteCart(item) {
+    const productKey = `${item.productId}-${item.color}`
+    localStorage.removeItem(productKey)
+}
+
+function deleteArticleToCart(item) {
+    const articleDelete = document.querySelector(
+        `article[data-productId="${item.productId}"][data-color="${item.color}"]`
+    )
+    articleDelete.remove()
+
+    alert("Ce produit a bien été retiré du panier")
 }
 
 function postTotalQuantity() {
@@ -134,4 +160,19 @@ function postTotalPrice() {
     const totalPrice = document.querySelector("#totalPrice")
     const total = cart.reduce((total, item) => total + item.price * item.quantity, 0)
     totalPrice.textContent = total
+}
+
+function changeQuantityAndPrice(productId, changeCart, item) {
+    const changeId = cart.find((item) => item.productId === productId)
+    changeId.quantity = Number(changeCart)
+    item.quantity = changeId.quantity
+    postTotalQuantity()
+    postTotalPrice()
+    saveCart(item)
+}
+
+function saveCart(item) {
+    const data = JSON.stringify(item)
+    const productKey = `${item.productId}-${item.color}`
+    localStorage.setItem(productKey, data)
 }

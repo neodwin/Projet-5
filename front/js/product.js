@@ -97,6 +97,7 @@ if (button != null) {
 }
 
 function addCart(color, quantity) {
+    const productKey = `${productId}-${color}`
     const data = {
         productId: productId,
         color: color,
@@ -106,7 +107,7 @@ function addCart(color, quantity) {
         altTxt: altText,
         name: articleName
     }
-    localStorage.setItem(productId + color, JSON.stringify(data))
+    localStorage.setItem(productKey, JSON.stringify(data))
 }
 
 function isOrderInvalid(color, quantity) {
