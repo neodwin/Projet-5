@@ -223,7 +223,7 @@ function makeFormContact() {
             city: city,
             email: email
         },
-        products: ["idsProducts"]
+        products: idsProducts()
     }
     return contact
 }
@@ -254,6 +254,7 @@ function idsProducts() {
     const quantityProducts = localStorage.length
     const ids = []
     for (let i = 0; i < quantityProducts; i++) {
+        const key = localStorage.key(i)
         const id = key.split("-")[0]
         ids.push(id)
     }
