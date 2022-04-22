@@ -242,7 +242,7 @@ function formNotOk() {
 
 function emailNotOk() {
     const email = document.querySelector("#email").value
-    const regexMail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const regexMail = /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/
     if (regexMail.test(email) === false) {
         alert("Merci d'entrer un email valide")
         return true
