@@ -3,6 +3,9 @@ const cart = []
 itemsLocalStorage()
 cart.forEach(item => postItem(item))
 
+const orderButton = document.querySelector("#order")
+orderButton.addEventListener("click", (e) => sendForm(e))
+
 function itemsLocalStorage() {
     const productItems = localStorage.length
     for (let i = 0; i < productItems; i++) {
@@ -177,4 +180,82 @@ function saveCart(item) {
     const data = JSON.stringify(item)
     const productKey = `${item.productId}-${item.color}`
     localStorage.setItem(productKey, data)
+}
+
+/* Formulaire */
+
+function sendForm(e) {
+    e.preventDefault()
+    if (cart.length === 0) {
+        alert("Votre panier est vide :'(")
+        return
+    }
+
+    if (formNotOk()) return
+    if (emailNotOk()) return
+
+    const form = document.querySelector("#cart__order__form")
+    const contact = makeFormContact()
+    fetch("http://localhost:3000/api/products/order", {
+            method: "POST",
+            body: JSON.stringify(contact),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+}
+
+function makeFormContact() {
+    const form = document.querySelector(".cart__order__form")
+    const firstName = form.elements.firstName.value
+    const lastName = form.elements.lastName.value
+    const address = form.elements.address.value
+    const city = form.elements.city.value
+    const email = form.elements.email.value
+    const contact = {
+        contact: {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            email: email
+        },
+        products: ["idsProducts"]
+    }
+    return contact
+}
+
+function formNotOk() {
+    const form = document.querySelector(".cart__order__form")
+    const inputs = form.querySelectorAll("input")
+    inputs.forEach((input) => {
+        if (input.value === "") {
+            alert("Merci de remplir tous les champs")
+            return true
+        }
+        return false
+    })
+}
+
+function emailNotOk() {
+    const email = document.querySelector("#email").value
+    const regexMail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    if (regexMail.test(email) === false) {
+        alert("Merci d'entrer un email valide")
+        return true
+    }
+    return false
+}
+
+function idsProducts() {
+    const quantityProducts = localStorage.length
+    const ids = []
+    for (let i = 0; i < quantityProducts; i++) {
+        const id = key.split("-")[0]
+        ids.push(id)
+    }
+    return ids
 }
