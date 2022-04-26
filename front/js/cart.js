@@ -151,7 +151,6 @@ function deleteArticleToCart(item) {
     articleDelete.remove()
 
     alert("Ce produit a bien été retiré du panier")
-        //location.reload()
 }
 
 function postTotalQuantity() {
