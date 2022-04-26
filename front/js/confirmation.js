@@ -1,3 +1,5 @@
+/* Finalisation de commande & affichage du numéro de commande */
+
 function confirmationOrderId() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString)
