@@ -148,7 +148,6 @@ function deleteArticleToCart(item) {
     const articleDelete = document.querySelector(
         `article[data-product-id="${item.productId}"][data-color="${item.color}"]`
     )
-    console.log(item)
     articleDelete.remove()
 
     alert("Ce produit a bien été retiré du panier")
@@ -205,7 +204,10 @@ function sendForm(e) {
             }
         })
         .then((res) => res.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+            const orderId = data.orderId
+            window.location.href = "./confirmation.html" + "?orderId=" + orderId
+        })
 }
 
 function makeFormContact() {
