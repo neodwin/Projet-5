@@ -12,11 +12,6 @@ function setOrderId(orderId) {
     orderIdElement.textContent = orderId
 }
 
-function cleanLocalStorage() {
-    const cartLocalStorage = window.localStorage
-    cartLocalStorage.clear()
-}
-
 const orderId = confirmationOrderId()
 setOrderId(orderId)
-cleanLocalStorage()
+window.localStorage.clear()

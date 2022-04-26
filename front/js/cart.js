@@ -132,7 +132,7 @@ function addDeleteToSettings(settings, item) {
 
 function deleteItem(item) {
     const itemDelete = cart.findIndex(product => product.productId === item.productId && product.color === item.color)
-    cart.splice[itemDelete, 1]
+    cart.splice(itemDelete, 1)
     postTotalQuantity()
     postTotalPrice()
     deleteCart(item)
@@ -151,7 +151,7 @@ function deleteArticleToCart(item) {
     articleDelete.remove()
 
     alert("Ce produit a bien été retiré du panier")
-    location.reload()
+        //location.reload()
 }
 
 function postTotalQuantity() {
@@ -167,7 +167,7 @@ function postTotalPrice() {
 }
 
 function changeQuantityAndPrice(productId, changeCart, item) {
-    const changeId = cart.find((item) => item.productId === productId)
+    const changeId = cart.find((product) => item.productId === productId && product.color === item.color)
     changeId.quantity = Number(changeCart)
     item.quantity = changeId.quantity
     postTotalQuantity()
