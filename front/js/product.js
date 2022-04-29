@@ -112,7 +112,7 @@ function addCart(color, quantity) {
 
 function isOrderInvalid(color, quantity) {
     if (color == null || color === "" || quantity == null || quantity == 0) {
-        alert("Please select a color and quantity")
+        alert("Veuillez selectionner un coloris ainsi que la quantité souhaitée s'il vous plait")
         return true
     }
 }

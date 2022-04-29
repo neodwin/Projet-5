@@ -190,9 +190,11 @@ function sendForm(e) {
     }
 
     if (formNotOk()) return
+    if (firstNameNotOk()) return
+    if (lastNameNotOk()) return
+    if (cityNotOk()) return
     if (emailNotOk()) return
 
-    const form = document.querySelector("#cart__order__form")
     const contact = makeFormContact()
     fetch("http://localhost:3000/api/products/order", {
             method: "POST",
@@ -239,6 +241,36 @@ function formNotOk() {
         }
         return false
     })
+}
+
+function firstNameNotOk() {
+    const firstName = document.querySelector("#firstName").value
+    const regexFirstName = /^([^0-9]*)$/
+    if (regexFirstName.test(firstName) === false) {
+        alert("Merci d'entrer un prénom valide")
+        return true
+    }
+    return false
+}
+
+function lastNameNotOk() {
+    const lastName = document.querySelector("#lastName").value
+    const regexLastName = /^([^0-9]*)$/
+    if (regexLastName.test(lastName) === false) {
+        alert("Merci d'entrer un nom valide")
+        return true
+    }
+    return false
+}
+
+function cityNotOk() {
+    const city = document.querySelector("#city").value
+    const regexCity = /^([^0-9]*)$/
+    if (regexCity.test(city) === false) {
+        alert("Merci d'entrer une ville valide")
+        return true
+    }
+    return false
 }
 
 function emailNotOk() {
