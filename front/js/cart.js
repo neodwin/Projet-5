@@ -32,7 +32,7 @@ function postItem(item) {
 
 function makeCartContent(item) {
     const cartItemContent = document.createElement("div")
-    cartItemContent.classList.add("cart__intem__content")
+    cartItemContent.classList.add("cart__item__content")
 
     const description = makeDescription(item)
     const settings = makeSettings(item)
@@ -236,7 +236,9 @@ function formNotOk() {
     const inputs = form.querySelectorAll("input")
     inputs.forEach((input) => {
         if (input.value === "") {
-            alert("Merci de remplir tous les champs")
+            input.closest("div.cart__order__form__question").getElementsByTagName("p")[0].innerHTML = "Merci de remplir tous les champs";
+            // alert("Merci de remplir tous les champs")
+
             return true
         }
         return false
@@ -247,7 +249,7 @@ function firstNameNotOk() {
     const firstName = document.querySelector("#firstName").value
     const regexFirstName = /^([^0-9]*)$/
     if (regexFirstName.test(firstName) === false) {
-        alert("Merci d'entrer un prénom valide")
+        document.querySelector("#firstNameErrorMsg").innerHTML = "Merci d'entrer un prénom valide";
         return true
     }
     return false
@@ -257,7 +259,7 @@ function lastNameNotOk() {
     const lastName = document.querySelector("#lastName").value
     const regexLastName = /^([^0-9]*)$/
     if (regexLastName.test(lastName) === false) {
-        alert("Merci d'entrer un nom valide")
+        document.querySelector("#nameErrorMsg").innerHTML = "Merci d'entrer un nom valide";
         return true
     }
     return false
@@ -267,7 +269,7 @@ function cityNotOk() {
     const city = document.querySelector("#city").value
     const regexCity = /^([^0-9]*)$/
     if (regexCity.test(city) === false) {
-        alert("Merci d'entrer une ville valide")
+        document.querySelector("#cityErrorMsg").innerHTML = "Merci d'entrer une ville valide";
         return true
     }
     return false
@@ -277,7 +279,7 @@ function emailNotOk() {
     const email = document.querySelector("#email").value
     const regexMail = /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/
     if (regexMail.test(email) === false) {
-        alert("Merci d'entrer un email valide")
+        document.querySelector("#emailErrorMsg").innerHTML = "Merci d'entrer un email valide";
         return true
     }
     return false
